@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import SavingsChart from "@/components/SavingsChart";
 import Hero from "@/components/Hero";
 import ResultsCard from "@/components/ResultsCard";
 import { generateAudit } from "@/lib/auditEngine";
@@ -155,6 +156,7 @@ export default function Home() {
     />
 
     <EmailCapture />
+    <SavingsChart savings={savings} />
   </>
 )}
 

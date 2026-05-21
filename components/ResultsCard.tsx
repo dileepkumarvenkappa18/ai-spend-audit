@@ -1,4 +1,6 @@
 import AISummary from "./AISummary";
+import { exportAuditPDF } from "@/lib/exportPDF";
+
 
 interface Props {
   recommendation: string;
@@ -52,6 +54,18 @@ export default function ResultsCard({
       </div>
 
       <AISummary summary={summary} />
+      <button
+  onClick={() =>
+    exportAuditPDF(
+      recommendation,
+      savings,
+      summary
+    )
+  }
+  className="mt-8 bg-green-500 text-black px-6 py-3 rounded-xl font-bold"
+>
+  Download PDF Report
+</button>
 
     </div>
   );

@@ -1,23 +1,45 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function EmailCapture() {
 
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
+
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
 
-    console.log({
-      email,
-      company,
-      role,
-    });
+    setLoading(true);
 
-    setSuccess(true);
+    const { error } = await supabase
+      .from("leads")
+      .insert([
+        {
+          email,
+          company,
+          role,
+        },
+      ]);
+
+    setLoading(false);
+
+    if (!error) {
+      setSuccess(true);
+
+      setEmail("");
+      setCompany("");
+      setRole("");
+    }
+
+    else {
+      alert("Failed to save lead");
+      console.error(error);
+    }
   };
 
   return (
@@ -57,7 +79,7 @@ export default function EmailCapture() {
           onClick={handleSave}
           className="bg-green-500 text-black py-4 rounded-xl font-bold"
         >
-          Save Report
+          {loading ? "Saving..." : "Save Report"}
         </button>
 
         {success && (
